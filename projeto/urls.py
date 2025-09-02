@@ -1,5 +1,5 @@
 """
-URL configuration for projeto2 project.
+URL configuration for projeto project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('receitas/', include('receitas.urls'))
+    path('galeria/', include('galeria.urls')),
 ]
 
 if settings.DEBUG:

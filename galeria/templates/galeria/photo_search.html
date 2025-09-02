@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados da Pesquisa</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-blue-700 text-white shadow-md">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      
+      <!-- Logo / título -->
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <i data-feather="search"></i> Search Results
+      </h1>
+
+      <!-- Barra de pesquisa -->
+      <form action="{% url 'home' %}" method="GET" class="flex-1 max-w-lg mx-6">
+        <div class="relative">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Buscar fotos..." 
+            value="{{ request.GET.q }}" 
+            class="w-full rounded-xl px-4 py-2 pl-10 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+          <i data-feather="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        </div>
+      </form>
+
+      <!-- Menu -->
+      <nav>
+        <ul class="flex gap-4">
+          <li><a href="{% url 'home' %}" class="hover:text-blue-200">start</a></li>
+          <li><a href="#" class="hover:text-blue-200">about</a></li>
+          <li><a href="#" class="hover:text-blue-200">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container mx-auto flex-1 p-6">
+  <h2 class="text-2xl font-semibold mb-8 text-center text-gray-700">
+    {% if query %}
+      Search results for 
+      <span class="text-blue-700">"{{ query }}"</span>
+    {% else %}
+      No terms were searched
+    {% endif %}
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% if resultados %}
+      {% for photo in resultados %}
+      <!-- Card -->
+      <div class="bg-white shadow-lg rounded-2xl overflow-hidden border border-blue-200 hover:shadow-xl transition">
+        {% if photo.image %}
+          <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="w-full h-48 object-cover">
+        {% else %}
+          <img src="https://via.placeholder.com/400x250" alt="Sem imagem" class="w-full h-48 object-cover">
+        {% endif %}
+        <div class="p-4">
+          <h3 class="text-lg font-bold text-blue-700">{{ photo.title }}</h3>
+          <p class="text-gray-600 text-sm mt-1">{{ photo.description|truncatechars:100 }}</p>
+          <a href="{% url 'photo_detail' photo.pk %}" class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">
+            <i data-feather="eye" class="mr-2"></i> View details
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="col-span-3 text-center text-gray-500">No photos found.</p>
+    {% endif %}
+  </div>
+</main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-700 text-white p-4 mt-6">
+    <div class="container mx-auto text-center text-sm">
+      <p>&copy; 2025 Photo Gallery. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Ativar Feather Icons -->
+  <script>
+    feather.replace()
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Receita
 
 # Register your models here.
 
-admin.site.register(Receita)
+from .models import Photo
+admin.site.register(Photo)
